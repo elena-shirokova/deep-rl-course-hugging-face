@@ -12,6 +12,7 @@ huggingface-hub = "*"
 ipykernel = "*"
 gym = "*"
 imageio = "*"
+hydra-core = "*"
 
 [dev-packages]
 

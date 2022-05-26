@@ -1,29 +1,34 @@
 import numpy as np
 from typing import List
+from omegaconf import DictConfig
 
 class QLearningModel:
 
-    # Training parameters
-    n_training_episodes: int = 1000 
-    learning_rate: float = 0.8
-
-    # Evaluation parameters
-    n_eval_episode: int = 1000
-
-    # Environment parameters
-    env_id: str = "FrozenLake-v1"
-    max_steps: int = 99
-    gamma: float = 0.95
+    n_training_episodes: int 
+    learning_rate: float
+    n_eval_episode: int
+    max_steps: int
+    gamma: float
     eval_seed: List = []
+    epsilon: float
+    max_epsilon: float
+    min_epsilon: float
+    decay_rate: float
 
-    # Exploration parameters
-    epsilon: float = 1.0
-    max_epsilon: float = 1.0
-    min_epsilon: float = 0.05
-    decay_rate: float = 0.01
-
-    def __init__(self, env) -> None:
+    def __init__(self, env, conf) -> None:
         self.env = env
+        self.conf = conf
+        self.n_training_episodes = self.conf["n_training_episodes"]
+        self.learning_rate = self.conf["learning_rate"]
+        self.n_eval_episode = self.conf["n_eval_episode"]
+        self.max_steps = self.conf["max_steps"]
+        self.gamma = self.conf["gamma"]
+        self.eval_seed = self.conf["eval_seed"]
+        self.epsilon = self.conf["epsilon"]
+        self.max_epsilon = self.conf["max_epsilon"]
+        self.min_epsilon = self.conf["min_epsilon"]
+        self.decay_rate = self.conf["decay_rate"]
+
 
     def initialize_q_table(self):
         state_space = self.env.observation_space.n
