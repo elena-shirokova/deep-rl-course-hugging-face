@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyglet = "==1.5.1"
+pyopengl = "*"
+pygame = "*"
+numpy = "*"
+huggingface-hub = "*"
+ipykernel = "*"
+gym = "*"
+imageio = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
