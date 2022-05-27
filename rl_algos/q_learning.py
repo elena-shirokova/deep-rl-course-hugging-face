@@ -15,7 +15,7 @@ class QLearningModel:
     min_epsilon: float
     decay_rate: float
 
-    def __init__(self, env, conf) -> None:
+    def __init__(self, env, conf: DictConfig) -> None:
         self.env = env
         self.conf = conf
         self.n_training_episodes = self.conf["n_training_episodes"]
@@ -59,7 +59,9 @@ class QLearningModel:
         return action
 
 
-    def train(self, Qtable):
+    def train(self):
+        Qtable = self.initialize_q_table()
+
         for episode in range(self.n_training_episodes):
             # Reduce epsilon (because we need less and less exploration)
             self.epsilon = self.min_epsilon + (self.max_epsilon - self.min_epsilon) * np.exp(-self.decay_rate * episode)
@@ -78,8 +80,7 @@ class QLearningModel:
                 new_state, reward, done, info = self.env.step(action)
 
                 # Update Q(s,a):= Q(s,a) + lr [R(s,a) + gamma * max Q(s',a') - Q(s,a)]
-                Qtable[state][action] = Qtable[state][action] + self.learning_rate * (reward + self.gamma * np.max(Qtable[state, :]) - Qtable[state][action])
-
+                Qtable[state][action] = Qtable[state][action] + self.learning_rate * (reward + self.gamma * np.max(Qtable[new_state, :]) - Qtable[state][action])
                 # If done, finish the episode
                 if done:
                     break
